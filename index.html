@@ -106,19 +106,79 @@
             }
         },
 
-        delete (value) {
+        findLeftChild (root) {
+            //поиск самого нижнего левого узла
+            if (root.left == null) {
+                return root
+            } else {
+                return this.findLeftChild(root.left);
+            }
+        },
 
+        delete (value, root) {
+            if (value == root.data) {
+                if ((root.right == null) && (root.left == null)) {
+                    //1. если у него нет детей
+                    root.data = null;
+                    return;
+                }
+                if ((root.right == null) || (root.left == null)) {
+                    //2. если один ребенок
+                    let child = {};
+                    if (root.right !== null){
+                        child = root.right;
+                        root.data = child.data;
+                        root.right = null;
+                    } else {
+                        child = root.left;
+                        root.data = child.data;
+                        root.left = null;
+                    }
+                    
+                }
+                if ((root.right !== null) && (root.left !== null)) {
+                    //3. если двое детей
+                        //идём в правую ветку
+                        //a дальше опускаемся как можно глубже в лево
+                        //пока не находим самого нижнего левого ребенка (y него root.left = null)
+                        //value этого ребенка сохраняем в переменную child
+                        //присваиваем самому ребенку value = null
+                        //a узлу который надо удалить присваиваем value из child
+                    if (root.right.left == null) {
+                        root.data = root.right.data;
+                        root.right = root.right.right;
+                    } else {
+                        let child = this.findLeftChild(root.right);
+                        root.data = child.data;
+                        child.data = null;
+                    }
+                }
+                return;
+            } else if (value > root.data) {
+                //right side
+                if (root.right == null) {
+                    return "no such value"
+                } else {
+                    this.delete(value, root.right)
+                }
+            } else {
+                //left side
+                if (root.left == null) {
+                    return "no such value"
+                } else {
+                    this.delete(value, root.left)
+                }
+            }
         }
     }
 
 
 
 
-    let tree = treeManipulation.makeTree([11, 2, 60, 3, 7, 100, 6]);
+    let tree = treeManipulation.makeTree([ 60, 2, 5, 44, 102, 34, 155, 3, 43, 7, 100, 6]);
+    treeManipulation.delete(6, tree);
     treeManipulation.prettyPrint(tree);
 
-    //1. Write insert and delete functions that accepts a value to insert/delete. 
-    //You’ll have to deal with several cases for delete, such as when a node has children or not.
 
     //2. Write a find function that accepts a value and returns the node with the given value.
 </script>
