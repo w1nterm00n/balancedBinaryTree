@@ -372,8 +372,8 @@
 
         //берёт несбалансированное дерево, и делает из него сбалансированное
         rebalance (root) {
-            if (this.isBalanced(root) == true) {
-                return "tree is already balanced";
+            if (this.isBalanced(root) === true) {
+                return root;
             } else {
                 let arr = this.breadthFirstTraversal(root);
                 let balancedTree = this.makeTree(arr);
@@ -382,30 +382,42 @@
         }
     }
 
-
-
-    let tree = treeManipulation.makeTree([ 60, 2, 5, 55, 100, 102, 34, 6]);
-    //treeManipulation.delete(6, tree);
-    //treeManipulation.prettyPrint(tree);
-    console.log(tree);
-
-    let shittyTree = tree;
-
-    let node99 = new Node(99);
-    treeManipulation.find(100, shittyTree).left = node99;
-    let node104 = new Node(104);
-    treeManipulation.find(102, shittyTree).right = node104;
-
-    treeManipulation.prettyPrint(shittyTree);
-    
-    console.log(treeManipulation.isBalanced(shittyTree));
-    
-    let newTree = treeManipulation.rebalance(shittyTree);
-    treeManipulation.prettyPrint(newTree);
-    //treeManipulation.postOrder(tree, print = (n) => console.log(n));
+    function randomInteger () {
+        return Math.floor(Math.random() * 20) + 1;
+    }
 
 
 
+    function tieAllTogether () {
+
+        let arrLength = randomInteger();
+        let arr = [];
+        for (let i = 0; i < arrLength; i++) {
+            arr.push(randomInteger());
+        }
+        let tree = treeManipulation.makeTree(arr);
+        console.log(" is tree balanced? " + treeManipulation.isBalanced(tree));
+        treeManipulation.prettyPrint(tree);
+        
+        //Unbalance the tree by adding several numbers > 100.
+        for (let i = 0; i < 20; i++) {
+            var value = randomInteger();
+            treeManipulation.insert(value, tree);
+        };
+        console.log(" is tree balanced? " + treeManipulation.isBalanced(tree));
+        treeManipulation.prettyPrint(tree);
+        tree = treeManipulation.rebalance(tree);
+        console.log(" is tree balanced? " + treeManipulation.isBalanced(tree));
+
+        //Print out all elements in level, pre, post, and in order
+        console.log(treeManipulation.levelOrder(tree));
+        console.log(treeManipulation.preOrder(tree));
+        console.log(treeManipulation.postOrder(tree));
+        console.log(treeManipulation.inOrder(tree));
+        return
+    }
+
+    tieAllTogether();
 
 </script>
 </html>
