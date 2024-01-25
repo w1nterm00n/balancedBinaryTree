@@ -225,16 +225,38 @@
             this.findLongestNode(node.right, currentDepth, maxDepth);
 
             return maxDepth.value;
-        }
+        },
+
+        depth (value, root, totalDepth = 1) {
+            if (root.data == value) {
+                return totalDepth
+            }
+            totalDepth ++;
+            if (value > root.data) {
+                if (root.right == null) {
+                    return "no such value";
+                }
+                return this.depth(value, root.right, totalDepth);
+
+            } else if (value < root.data) {
+                if (root.left == null) {
+                    return "no such value";
+                }
+                return this.depth(value, root.left, totalDepth);
+            }
+            //берём ноду
+            //смотрим насколько глубоко она находится относительно рута
+        },
 
     }
 
 
 
-    let tree = treeManipulation.makeTree([ 60, 2, 5, 55, 100, 150, 45, 50, 40, 11, 23, 4, 44, 102, 34, 155, 6]);
+    let tree = treeManipulation.makeTree([ 60, 2, 5, 55, 102, 34, 155, 6]);
     //treeManipulation.delete(6, tree);
     treeManipulation.prettyPrint(tree);
-    console.log(treeManipulation.findLongestNode(tree.right.right));
+    //console.log(treeManipulation.findLongestNode(tree));
+    console.log(treeManipulation.depth(555, tree))
     //console.log(treeManipulation.find (666, tree));
 
 </script>
