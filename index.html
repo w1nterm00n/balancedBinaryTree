@@ -192,6 +192,37 @@
             return result;
         },
 
+
+        levelOrder (root, callback) {
+            //в качестве аргумента передается коллбэк
+            //проходимся по узлам c помощью BFT
+            //и к каждому узлу применяем коллбэк
+            
+            //если коллбэка не передается - возвращается массив чисел
+            if (root === null) {
+                return [];
+            }
+            const result = [];
+            const queue = [root];
+            while (queue.length > 0) {
+                const currentNode = queue.shift(); 
+                result.push(currentNode.data);
+                if (callback) {
+                    callback(currentNode.data);
+                }
+
+                if (currentNode.left !== null) {
+                    queue.push(currentNode.left);
+                }
+                if (currentNode.right !== null) {
+                    queue.push(currentNode.right);
+                }
+            }
+            return result;
+        },
+
+        
+
         find (value, root) {
             if (root.data == value) {
                 return root
@@ -256,8 +287,11 @@
     //treeManipulation.delete(6, tree);
     treeManipulation.prettyPrint(tree);
     //console.log(treeManipulation.findLongestNode(tree));
-    console.log(treeManipulation.depth(555, tree))
+    //console.log(treeManipulation.depth(555, tree))
     //console.log(treeManipulation.find (666, tree));
+
+    //treeManipulation.levelOrder(tree, print = (n) => console.log(n));
+
 
 </script>
 </html>
