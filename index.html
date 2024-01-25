@@ -358,19 +358,53 @@
             //смотрим насколько глубоко она находится относительно рута
         },
 
+        //проверяет является ли дерево сбалансированным
+        isBalanced (root) {
+            let rightHeight = this.findLongestNode(root.right);
+            let leftHeight = this.findLongestNode(root.left);
+            let differense = Math.abs(rightHeight - leftHeight);
+            if (differense > 1) {
+                return false
+            } else {
+                return true
+            }
+        },
+
+        //берёт несбалансированное дерево, и делает из него сбалансированное
+        rebalance (root) {
+            if (this.isBalanced(root) == true) {
+                return "tree is already balanced";
+            } else {
+                let arr = this.breadthFirstTraversal(root);
+                let balancedTree = this.makeTree(arr);
+                return balancedTree
+            }
+        }
     }
 
 
 
-    let tree = treeManipulation.makeTree([ 60, 2, 5, 55, 102, 34, 6]);
+    let tree = treeManipulation.makeTree([ 60, 2, 5, 55, 100, 102, 34, 6]);
     //treeManipulation.delete(6, tree);
-    treeManipulation.prettyPrint(tree);
-    treeManipulation.postOrder(tree, print = (n) => console.log(n));
-    //console.log(treeManipulation.findLongestNode(tree));
-    //console.log(treeManipulation.depth(555, tree))
-    //console.log(treeManipulation.find (666, tree));
+    //treeManipulation.prettyPrint(tree);
+    console.log(tree);
 
-    //treeManipulation.levelOrder(tree, print = (n) => console.log(n));
+    let shittyTree = tree;
+
+    let node99 = new Node(99);
+    treeManipulation.find(100, shittyTree).left = node99;
+    let node104 = new Node(104);
+    treeManipulation.find(102, shittyTree).right = node104;
+
+    treeManipulation.prettyPrint(shittyTree);
+    
+    console.log(treeManipulation.isBalanced(shittyTree));
+    
+    let newTree = treeManipulation.rebalance(shittyTree);
+    treeManipulation.prettyPrint(newTree);
+    //treeManipulation.postOrder(tree, print = (n) => console.log(n));
+
+
 
 
 </script>
