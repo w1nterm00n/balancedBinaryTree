@@ -207,17 +207,35 @@
                 }
                 return this.find(value, root.left);
             } 
+        },
+
+        findLongestNode(node, currentDepth = 0, maxDepth = { value: -1, node: null }) {
+            if (node === null) {
+                return;
+            }
+
+            currentDepth++;
+
+            if (currentDepth > maxDepth.value) {
+                maxDepth.value = currentDepth;
+                maxDepth.node = node;
+            }
+
+            this.findLongestNode(node.left, currentDepth, maxDepth);
+            this.findLongestNode(node.right, currentDepth, maxDepth);
+
+            return maxDepth.value;
         }
+
     }
 
 
 
-
-    let tree = treeManipulation.makeTree([ 60, 2, 5, 44, 102, 34, 155, 3, 43, 7, 100, 6]);
+    let tree = treeManipulation.makeTree([ 60, 2, 5, 55, 100, 150, 45, 50, 40, 11, 23, 4, 44, 102, 34, 155, 6]);
     //treeManipulation.delete(6, tree);
     treeManipulation.prettyPrint(tree);
-    console.log(treeManipulation.breadthFirstTraversal(tree));
-    console.log(treeManipulation.find (666, tree));
+    console.log(treeManipulation.findLongestNode(tree.right.right));
+    //console.log(treeManipulation.find (666, tree));
 
 </script>
 </html>
