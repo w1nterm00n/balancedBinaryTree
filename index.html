@@ -169,6 +169,44 @@
                     this.delete(value, root.left)
                 }
             }
+        },
+    
+
+        breadthFirstTraversal(root) {
+            if (root === null) {
+                return [];
+            }
+            const result = [];
+            const queue = [root]; // Используем очередь для обхода в ширину
+            while (queue.length > 0) {
+                const currentNode = queue.shift(); // Извлекаем первый элемент из очереди
+                result.push(currentNode.data);
+                // Добавляем дочерние узлы в очередь (слева направо)
+                if (currentNode.left !== null) {
+                    queue.push(currentNode.left);
+                }
+                if (currentNode.right !== null) {
+                    queue.push(currentNode.right);
+                }
+            }
+            return result;
+        },
+
+        find (value, root) {
+            if (root.data == value) {
+                return root
+            }
+            if (value > root.data) {
+                if (root.right == null) {
+                    return "no such value";
+                }
+                return this.find(value, root.right);
+            } else if (value < root.data) {
+                if (root.left == null) {
+                    return "no such value";
+                }
+                return this.find(value, root.left);
+            } 
         }
     }
 
@@ -176,10 +214,10 @@
 
 
     let tree = treeManipulation.makeTree([ 60, 2, 5, 44, 102, 34, 155, 3, 43, 7, 100, 6]);
-    treeManipulation.delete(6, tree);
+    //treeManipulation.delete(6, tree);
     treeManipulation.prettyPrint(tree);
+    console.log(treeManipulation.breadthFirstTraversal(tree));
+    console.log(treeManipulation.find (666, tree));
 
-
-    //2. Write a find function that accepts a value and returns the node with the given value.
 </script>
 </html>
